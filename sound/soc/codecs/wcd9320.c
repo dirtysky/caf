@@ -41,6 +41,9 @@
 #include <mach/cpuidle.h>
 #include <linux/of_gpio.h>
 #include <asm/bootinfo.h>
+#include <linux/pm_qos.h>
+#include <linux/pm.h>
+#include <mach/cpuidle.h>
 #include "wcd9320.h"
 #include "wcd9xxx-resmgr.h"
 #include "wcd9xxx-common.h"
@@ -470,6 +473,8 @@ struct taiko_priv {
 	struct fw_info *fw_data;
 
 	int headset_pa_en_gpio;
+
+	struct pm_qos_request pm_qos_req;
 };
 
 static const u32 comp_shift[] = {
