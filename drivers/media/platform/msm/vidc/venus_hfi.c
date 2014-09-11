@@ -3701,6 +3701,7 @@ static int venus_hfi_load_fw(void *dev)
 	}
 	device->clk_gating_level = VCODEC_NONE;
 
+
 	mutex_lock(&device->clk_pwr_lock);
 	rc = regulator_enable(device->gdsc);
 	if (rc) {
