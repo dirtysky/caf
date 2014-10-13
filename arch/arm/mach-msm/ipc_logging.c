@@ -36,6 +36,7 @@
 
 static LIST_HEAD(ipc_log_context_list);
 static DEFINE_RWLOCK(context_list_lock_lha1);
+static atomic_t next_log_id = ATOMIC_INIT(0);
 static void *get_deserialization_func(struct ipc_log_context *ilctxt,
 				      int type);
 
@@ -81,14 +82,6 @@ static int is_nd_read_empty(struct ipc_log_context *ilctxt)
  * is no data at all in the log.
  */
 static int is_read_empty(struct ipc_log_context *ilctxt)
-{
-	if (!ilctxt)
-		return -EINVAL;
-
-	return ((ilctxt->read_page == ilctxt->write_page) &&
-		(ilctxt->read_page->hdr.read_offset ==
-		 ilctxt->write_page->hdr.write_offset));
-}
 
 /**
  * is_nd_read_equal_read - Return true if the non-destructive read is equal to
