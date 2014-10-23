@@ -475,6 +475,8 @@ struct taiko_priv {
 	int headset_pa_en_gpio;
 
 	struct pm_qos_request pm_qos_req;
+	/* cal info for codec */
+	struct fw_info *fw_data;
 };
 
 static const u32 comp_shift[] = {
