@@ -6595,9 +6595,6 @@ SYSCALL_DEFINE5(perf_event_open,
 		struct perf_event_context *gctx = group_leader->ctx;
 
 		mutex_lock(&gctx->mutex);
-<<<<<<< HEAD
-		perf_remove_from_context(group_leader);
-=======
 		perf_remove_from_context(group_leader, false);
 
 		/*
@@ -6606,7 +6603,6 @@ SYSCALL_DEFINE5(perf_event_open,
 		 * startup state, ready to be add into new context.
 		 */
 		perf_event__state_init(group_leader);
->>>>>>> e0668aa... Linux 3.4.0 -> 3.4.100
 		list_for_each_entry(sibling, &group_leader->sibling_list,
 				    group_entry) {
 			perf_remove_from_context(sibling, false);
@@ -7290,13 +7286,6 @@ static void perf_event_exit_cpu(int cpu)
 {
 	struct swevent_htable *swhash = &per_cpu(swevent_htable, cpu);
 
-<<<<<<< HEAD
-	mutex_lock(&swhash->hlist_mutex);
-	swevent_hlist_release(swhash);
-	mutex_unlock(&swhash->hlist_mutex);
-
-=======
->>>>>>> e0668aa... Linux 3.4.0 -> 3.4.100
 	perf_event_exit_cpu_context(cpu);
 
 	mutex_lock(&swhash->hlist_mutex);
