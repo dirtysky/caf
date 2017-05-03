@@ -522,36 +522,19 @@ static int mdss_mdp_cmd_wait4pingpong(struct mdss_mdp_ctl *ctl, void *arg)
 			ctx->rdptr_enabled, ctl->roi_bkup.w,
 			ctl->roi_bkup.h);
 
-	pr_debug("%s: intf_num=%d ctx=%p koff_cnt=%d\n", __func__,
-			ctl->intf_num, ctx, atomic_read(&ctx->koff_cnt));
+	pr_debug("%s: need_wait=%d  intf_num=%d ctx=%pK\n",
+			__func__, need_wait, ctl->intf_num, ctx);
 
-	for (i = 0; i < 10; i++) {
-		rc = wait_event_timeout(ctx->pp_waitq,
-				atomic_read(&ctx->koff_cnt) == 0,
-				KOFF_TIMEOUT);
+	if (need_wait) {
+		for (i = 0; i < 10; i++) {
+			rc = wait_for_completion_timeout(
+					&ctx->pp_comp, KOFF_TIMEOUT);
 
-		if (rc <= 0) {
-			u32 status, mask;
-			mask = BIT(MDSS_MDP_IRQ_PING_PONG_COMP + ctx->pp_num);
-			status = mask & readl_relaxed(ctl->mdata->mdp_base +
-					MDSS_MDP_REG_INTR_STATUS);
-			if (status) {
-				WARN(1, "pp done but irq not triggered\n");
-				mdss_mdp_irq_clear(ctl->mdata,
-						MDSS_MDP_IRQ_PING_PONG_COMP,
-						ctx->pp_num);
-				local_irq_save(flags);
-				mdss_mdp_cmd_pingpong_done(ctl);
-				local_irq_restore(flags);
-				rc = 1;
-			}
-			rc = atomic_read(&ctx->koff_cnt) == 0;
-		}
-		if (rc <= 0) {
-			if (i > 2) {
-				if (!ctx->pp_timeout_report_cnt) {
-					WARN(1, "cmd kickoff timed out (%d) ctl=%d\n",
-							rc, ctl->num);
+			if (rc <= 0) {
+				if (i > 2) {
+					WARN(1, "i %d cmd kickoff timed out (%d) ctl=%d\n", i,
+						rc, ctl->num);
+
 					mdss_dsi_debug_check_te(pdata);
 					MDSS_XLOG_TOUT_HANDLER("mdp", "dsi0", "dsi1",
 							"edp", "hdmi", "panic");
@@ -835,7 +818,7 @@ int mdss_mdp_cmd_start(struct mdss_mdp_ctl *ctl)
 	ctx->recovery.fxn = mdss_mdp_cmd_underflow_recovery;
 	ctx->recovery.data = ctx;
 
-	pr_debug("%s: ctx=%p num=%d mixer=%d\n", __func__,
+	pr_debug("%s: ctx=%pK num=%d mixer=%d\n", __func__,
 				ctx, ctx->pp_num, mixer->num);
 	MDSS_XLOG(ctl->num, ctx->koff_cnt, ctx->clk_enabled,
 					ctx->rdptr_enabled);
@@ -863,4 +846,3 @@ int mdss_mdp_cmd_start(struct mdss_mdp_ctl *ctl)
 
 	return 0;
 }
-
