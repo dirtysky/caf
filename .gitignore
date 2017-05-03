@@ -47,6 +47,8 @@ patch-3.*
 /System.map
 /Module.markers
 /Module.symvers
+build.log
+kernel/hz.bc
 
 #
 # Debian directory (make deb-pkg)
