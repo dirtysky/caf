@@ -49,6 +49,7 @@ echo -e "${bldblu}"
 while read -p "Select Skymo version
 1. DTTW & S2W
 2. NO DTTW & S2W
+3. MIUI
 Your choice: " mchoice
 echo -e "${bldred}"
 do
