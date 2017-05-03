@@ -1063,18 +1063,10 @@ static int ext4_ext_grow_indepth(handle_t *handle, struct inode *inode,
 	if (newblock == 0)
 		return err;
 
-<<<<<<< HEAD
-	bh = sb_getblk(inode->i_sb, newblock);
-	if (!bh) {
-		err = -EIO;
-		ext4_std_error(inode->i_sb, err);
-		return err;
-	}
-=======
+
 	bh = sb_getblk_gfp(inode->i_sb, newblock, __GFP_MOVABLE | GFP_NOFS);
 	if (!bh)
 		return -ENOMEM;
->>>>>>> 2bc8121... Linux 3.4.111
 	lock_buffer(bh);
 
 	err = ext4_journal_get_create_access(handle, bh);
