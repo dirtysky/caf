@@ -1,4 +1,4 @@
-/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+f/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
  * Copyright (C) 2015 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -473,10 +473,6 @@ struct taiko_priv {
 	struct fw_info *fw_data;
 
 	int headset_pa_en_gpio;
-
-	struct pm_qos_request pm_qos_req;
-	/* cal info for codec */
-	struct fw_info *fw_data;
 };
 
 static const u32 comp_shift[] = {
