@@ -1,4 +1,4 @@
-f/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
  * Copyright (C) 2015 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -41,9 +41,6 @@ f/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
 #include <mach/cpuidle.h>
 #include <linux/of_gpio.h>
 #include <asm/bootinfo.h>
-#include <linux/pm_qos.h>
-#include <linux/pm.h>
-#include <mach/cpuidle.h>
 #include "wcd9320.h"
 #include "wcd9xxx-resmgr.h"
 #include "wcd9xxx-common.h"

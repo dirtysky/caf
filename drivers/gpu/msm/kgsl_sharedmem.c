@@ -403,7 +403,6 @@ done:
 	mutex_unlock(&kernel_map_global_lock);
 }
 
-
 static void kgsl_page_alloc_free(struct kgsl_memdesc *memdesc)
 {
 	int i = 0;
