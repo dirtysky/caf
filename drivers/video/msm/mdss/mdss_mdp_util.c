@@ -518,7 +518,7 @@ int mdss_mdp_put_img(struct mdss_mdp_img_data *data)
 			data->srcp_ihdl = NULL;
 		}
 
-	} else {
+	else {
 		return -ENOMEM;
 	}
 
